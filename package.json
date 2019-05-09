@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-awss3",
+  "version": "1.0.0",
+  "description": "AWS S3 test NodeJS API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bacsa/nodejs-awss3-api.git"
+  },
+  "keywords": [
+    "AWSS3",
+    "NodeJS",
+    "API"
+  ],
+  "author": "Bihari Csaba <csaba.bihari@businessbox.hu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bacsa/nodejs-awss3-api/issues"
+  },
+  "homepage": "https://github.com/bacsa/nodejs-awss3-api#readme"
+}
