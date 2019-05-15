@@ -22,8 +22,12 @@
   },
   "homepage": "https://github.com/bacsa/nodejs-awss3-api#readme",
   "dependencies": {
+    "aws-sdk": "^2.455.0",
     "body-parser": "^1.19.0",
+    "dotenv": "^8.0.0",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "mongoose": "^5.5.8"
+    "mongoose": "^5.5.8",
+    "request": "^2.88.0"
   }
 }
