@@ -25,7 +25,10 @@ exports.create = function(req, res){
 	// Create the parameters for calling createBucket
 	var bucketParams = {
 	  Bucket: req.body.bucketname,
-	  ACL : 'public-read'
+	  ACL : process.env.AWS_ACL,
+	  CreateBucketConfiguration: {
+	  	LocationConstraint: process.env.AWS_REGION_DEFAULT,
+	  },
 	};
 
 	// call S3 to create the bucket
@@ -47,7 +50,15 @@ exports.create = function(req, res){
 
 exports.upload = function(req, res){
 	// call S3 to retrieve upload file to specified bucket
-	var uploadParams = {Bucket: req.body.bucketname, Key: '', Body: ''};
+	var uploadParams = {
+		Bucket: req.body.bucketname, 
+		Key: req.body.folderpath, 
+		Body: '',
+		ACL : process.env.AWS_ACL,
+	  	CreateBucketConfiguration: {
+	  		LocationConstraint: process.env.AWS_REGION_DEFAULT,
+	  	},
+	};
 	var file = req.body.filename;
 
 	// Configure the file stream and obtain the upload parameters
@@ -58,7 +69,7 @@ exports.upload = function(req, res){
 	});
 	uploadParams.Body = fileStream;
 	var path = require('path');
-	uploadParams.Key = path.basename(file);
+	uploadParams.Key = (uploadParams.Key || '') + path.basename(file);
 
 	// call S3 to retrieve upload file to specified bucket
 	s3.upload (uploadParams, function (err, data) {
@@ -78,7 +89,6 @@ exports.upload = function(req, res){
 };
 
 exports.listone = function(req, res){
-	console.log(req.params.bucketname);
 	// Create the parameters for calling listObjects
 	var bucketParams = {
 	  Bucket : req.params.bucketname,
@@ -86,6 +96,32 @@ exports.listone = function(req, res){
 
 	// Call S3 to obtain a list of the objects in the bucket
 	s3.listObjects(bucketParams, function(err, data) {
+	  	if (err){
+	  		res.json({
+				status: 404,
+				message: err
+			});
+	  	}else{
+		 	res.json({
+				status: 200,
+				message: 'Bucket retrieve succesfully',
+				data: data
+			});
+	  	}
+	});
+};
+
+exports.listfolders = function(req, res){
+	// Create the parameters for calling listObjects
+	var bucketParams = {
+	  Bucket : req.params.bucketname,
+	  MaxKeys: 200,
+      Delimiter: '/',
+      Prefix: req.body.folderpath || '',
+	};
+
+	// Call S3 to obtain a list of the objects in the bucket
+	s3.listObjectsV2(bucketParams, function(err, data) {
 	  	if (err){
 	  		res.json({
 				status: 404,
@@ -120,6 +156,110 @@ exports.delete = function(req, res){
 				message: 'Bucket deleted succesfully',
 				data: data
 			});
+	  	}
+	});
+};
+
+exports.deletefile = function(req, res){
+	console.log(req.params);
+	var params = {
+		Bucket: req.params.bucketname, 
+		Key: req.params.filename,
+	};
+
+	s3.deleteObject(params, function(err, data) {
+	  if (err){
+	  		res.json({
+				status: 404,
+				message: err
+			});
+	  	}else{
+	  		res.json({
+				status: 200,
+				message: 'Files deleted!',
+				data: data
+			});
+	  	}
+	});
+};
+
+exports.deletefiles = function(req, res){
+	var params = {
+		Bucket: req.params.bucketname,
+		Delete: { // required
+			Objects: [ // required
+		      	{
+		        	Key: 'app.js' // required
+		      	},
+		      	{
+		        	Key: 'package.json'
+		      	}
+	    	],
+	  	},
+	};
+
+	s3.deleteObjects(params, function(err, data) {
+	  if (err){
+	  		res.json({
+				status: 404,
+				message: err
+			});
+	  	}else{
+	  		res.json({
+				status: 200,
+				message: 'Files deleted!',
+				data: data
+			});
+	  	}
+	});
+};
+
+exports.emptybucket = function(req, res){
+	var params = {
+	    Bucket: req.params.bucketname,
+	    Prefix: ''
+	};
+
+	s3.listObjects(params, function(err, data) {
+	    if (err){
+	  		res.json({
+				status: 404,
+				message: err
+			});
+	  	}else{
+	  		if (data.Contents.length == 0){
+	  			res.json({
+					status: 200,
+					message: 'Bucket alredy empty!',
+					data: data
+				});
+	  		}else{
+	  			params = {Bucket: req.params.bucketname};
+			    params.Delete = {Objects:[]};
+
+			    data.Contents.forEach(function(content) {
+			      params.Delete.Objects.push({Key: content.Key});
+			    });
+
+			    s3.deleteObjects(params, function(err, data) {
+			    	if(err){
+						res.json({
+							status: 404,
+							message: err
+						});
+			    	}else{
+			    		if(data.Content != undefined && data.Contents.length == 1000){
+			    			exports.emptybucket(req, res);
+			    		}else{
+			    			res.json({
+								status: 200,
+								message: 'Bucket emptied!',
+								data: data
+							});
+			    		}
+			    	}
+			    });
+	  		}
 	  	}
 	});
 };

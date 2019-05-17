@@ -7,6 +7,8 @@ const dev_db_url = 'mongodb://' + config[environment].mdbOptions.dbUser + ':' + 
 
 module.exports = {
   environment: process.env.NODE_ENV || environment,
+  api_url: process.env.API_URL || config[environment].api_url,
+  public_url: process.env.PUBLIC_URL || config[environment].public_url,
   port: process.env.NODE_PORT || config[environment].node_port,
   dbUser: process.env.DB_USER || config[environment].dbUser,
   dbPass: process.env.DB_PASS || config[environment].dbPass,

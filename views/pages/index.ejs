@@ -13,8 +13,35 @@
 
 <main>
     <div class="jumbotron">
-        <h1>This is great</h1>
-        <p>Welcome to templating using EJS</p>
+        <h1>Create / Delete (empty) Bucket</h1>
+        <p><b>Note:</b> you cannot delete non-empty buckets! Before delete, you have to make the bucket empty.</p>
+        <form name="form1" method="POST" action="/">
+        <table>
+            <tr>
+            <td>Bucket Name</td>
+            <td><input type="text" name="bucketname"></td>
+            <td colspan="2"><input type="submit" value="Create Bucket" ></td>
+            </tr>
+        </table>
+        </form> 
+
+        <p>Request status: <b><%= status %></b></p>
+        <table style="width:100%;" border="1" cellpadding="1" cellspacing="1">
+            <thead>
+                <tr>
+                    <th style="padding:3px 10px;">Bucket name</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(function(d) { %>
+                <tr>
+                    <td style="padding:3px 10px;"><%= d.Name %></td>
+                    <td style="text-align:right; padding:3px 10px;"><a href="/deletebucket/<%= d.Name %>">delete this!</a></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
     </div>
 </main>
 

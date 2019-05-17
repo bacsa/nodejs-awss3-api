@@ -15,8 +15,16 @@
 <div class="row">
     <div class="col-sm-12">    
         <div class="jumbotron">
-            <h1>Why?</h1>
+            <h1>Upload (multiple) objects to AWSS3 Bucket</h1>
             <p>...</p>
+            <form id="uploadForm"
+		          enctype="multipart/form-data"
+		          action="/upload"
+		          method="post">
+		      <input type="file" name="upload" multiple />
+		      <input type="submit" value="Upload Image" name="submit">
+		      <span id = "status"></span>
+		    </form>
         </div>
     </div>
 </div>
