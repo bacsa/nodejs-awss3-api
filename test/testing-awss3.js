@@ -1,7 +1,10 @@
 //During the test the env variable is set to test
 process.env.NODE_ENV = 'testing';
 // Config
-const config = require('../config/config-testing');
+const environment = process.env.NODE_ENV;
+const api_url = process.env.API_URL || 'http://localhost:4000/api/';
+const port = process.env.NODE_PORT || '4000';
+const appName = process.env.APP_NAME || 'AWSS3 API';
 
 const router = require('express').Router();
 
@@ -17,7 +20,7 @@ chai.use(chaiHttp);
 //Our parent block
 describe('Buckets', () => {
     beforeEach((done) => { //Before each test we empty the database
-        chai.request(config.api_url + 's3')
+        chai.request(api_url + 's3')
             .delete('/bucket/teszteles-111')
             .end((err, res) => {
                   res.should.have.status(200);
@@ -29,7 +32,7 @@ describe('Buckets', () => {
   */
   describe('/GET Buckets', () => {
       it('it should GET all the buckets', (done) => {
-        chai.request(config.api_url + 's3')
+        chai.request(api_url + 's3')
             .get('/')
             .end((err, res) => {
                   res.should.have.status(200);
@@ -45,7 +48,7 @@ describe('Buckets', () => {
           let bucket = {
               bucketname: "teszteles-111"
           }
-        chai.request(config.api_url + 's3')
+        chai.request(api_url + 's3')
             .post('/')
             .send(bucket)
             .end((err, res) => {
