@@ -1,7 +1,7 @@
 //During the test the env variable is set to test
 process.env.NODE_ENV = 'testing';
 // Config
-const config = require('../config/config');
+const config = require('../config/config-testing');
 
 const router = require('express').Router();
 
