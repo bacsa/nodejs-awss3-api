@@ -12,7 +12,7 @@ const app = express();
 //don't show the log when it is test
 if(config.environment !== 'testing') {
     //use morgan to log at command line
-    app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+    app.use(logger('dev'));
 }
 
 app.use(bodyParser.urlencoded({
@@ -24,5 +24,3 @@ app.use('/api', apiroutes);
 app.listen(config.port, () => {
     console.log('Server is up and running on port ' + config.port);
 });
-
-module.exports = app; // for testing

@@ -2,41 +2,36 @@
 process.env.NODE_ENV = 'testing';
 // Config
 const environment = process.env.NODE_ENV;
-const api_url = process.env.API_URL || 'http://localhost:4000/api/';
+const s3_api_url = process.env.API_URL || 'http://localhost:4000/api/s3';
 const port = process.env.NODE_PORT || '4000';
 const appName = process.env.APP_NAME || 'AWSS3 API';
 
 const router = require('express').Router();
 
-var awss3Controller = require('../controllers/awss3.controller');
-
 //Require the dev-dependencies
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let should = chai.should();
+var chai = require('chai');
+var chaiHttp = require('chai-http');
+var should = chai.should();
+var expect = chai.expect;
 
 
 chai.use(chaiHttp);
 //Our parent block
 describe('Buckets', () => {
-    beforeEach((done) => { //Before each test we empty the database
-        chai.request(api_url + 's3')
-            .delete('/bucket/teszteles-111')
-            .end((err, res) => {
-                  res.should.have.status(200);
-              done();
-            }); 
+    before((done) => { //Before each test we empty the database
+        done();
     });
 /*
   * Test the /GET route
   */
   describe('/GET Buckets', () => {
       it('it should GET all the buckets', (done) => {
-        chai.request(api_url + 's3')
+        chai.request(s3_api_url)
             .get('/')
             .end((err, res) => {
-                  res.should.have.status(200);
-              done();
+                expect(res).to.have.status(200);
+                
+                done();
             });
       });
   });
@@ -48,11 +43,11 @@ describe('Buckets', () => {
           let bucket = {
               bucketname: "teszteles-111"
           }
-        chai.request(api_url + 's3')
+        chai.request(s3_api_url)
             .post('/')
             .send(bucket)
             .end((err, res) => {
-                  res.should.have.status(200);
+              expect(res).to.have.status(200);
               done();
             });
       });
