@@ -11,8 +11,8 @@ deploy:
   bucket_path: "docker-awss2-api"
   on:
     branch: master
-  access_key_id: $travis-access-key
-  secret_access_key: "$travis-secret-key"
+  access_key_id: $TRAVIS_ACCESS_KEY
+  secret_access_key: "$TRAVIS_SECRET_KEY"
 
 
 
