@@ -1,3 +1,5 @@
+docker/data/
+data/
 node_modules/*
 config/config.json
 package-lock.json

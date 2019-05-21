@@ -1,0 +1,9 @@
+sudo: required
+services: 
+  - docker
+
+before_install:
+  - docker build -t bacsa/nodejs-awss3-api -f Dockerfile.dev
+
+script: 
+  - docker run bacsa/nodejs-awss3-api npm run test -- --coverage

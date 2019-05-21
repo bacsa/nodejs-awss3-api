@@ -1,0 +1,9 @@
+version: "3"
+services:
+  awss3-api:
+    build: .
+    env_file:
+      - ./.env
+    restart: always
+    ports:
+      - "4000:4000"
