@@ -7,7 +7,7 @@ const chaiHttp = require('chai-http');
 const should = chai.should();
 const expect = chai.expect;
 const assert = require('assert');
-const server = require('../app');
+// const server = require('../app');
 
 
 describe('test', () => {
