@@ -11,6 +11,9 @@ COPY . /usr/src/app
 RUN npm run build
 # CMD node app.js
 
-FROM nginx
+# Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
+FROM nginx:1.15
+COPY --from=builder /usr/src/app /usr/share/nginx/html
+# Copy the default nginx.conf provided by tiangolo/node-frontend
+COPY --from=builder /nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
-COPY --from=builder /usr/src/app /var/app/current
