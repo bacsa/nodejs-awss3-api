@@ -15,5 +15,5 @@ RUN npm run build
 FROM nginx:1.15
 COPY --from=builder /usr/src/app /usr/share/nginx/html
 # Copy the default nginx.conf provided by tiangolo/node-frontend
-COPY --from=builder /nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
