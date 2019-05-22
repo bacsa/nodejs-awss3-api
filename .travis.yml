@@ -10,7 +10,7 @@ deploy:
   region: "eu-central-1"
   app: "docker-awss2-api"
   env: "docker-awss2-api-env"
-  bucket_name: "elasticbeanstalk-eu-west-1-044016133399"
+  bucket_name: "elasticbeanstalk-eu-central-1-044016133399"
   bucket_path: "docker-awss2-api"
   on:
     branch: master
