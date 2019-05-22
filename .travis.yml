@@ -5,6 +5,12 @@ node_js:
 services: 
   - docker
 
+before_install:
+  - docker build -t awss3api -f Dockerfile .
+
+script:
+  - docker run awss3api npm run test -- --coverage
+
 deploy:
   provider: elasticbeanstalk
   region: "eu-central-1"
