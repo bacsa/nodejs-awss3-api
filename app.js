@@ -15,6 +15,10 @@ if(config.environment !== 'testing') {
     app.use(logger('dev'));
 }
 
+app.get('/', (req, res) => {
+  res.send('awss3api');
+});
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
