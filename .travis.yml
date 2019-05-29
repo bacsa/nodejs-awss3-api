@@ -4,10 +4,7 @@ node_js:
   - "7"
 services: 
   - docker
-
-before_install:
-  - docker build -t bacsa/awss3api -f ./awss3api/Dockerfile.dev ./awss3api
-
+  
 script:
   - docker run bacsa/awss3api npm test -- --coverage
 
@@ -20,9 +17,9 @@ after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   
   # Take those images and push them to docker hub
-  - docker push bacsa/multi-frontend
-  - docker push bacsa/multi-api
-  - docker push bacsa/multi-nginx
+  - docker push bacsa/awss3-frontend
+  - docker push bacsa/awss3-api
+  - docker push bacsa/awss3-nginx
 
 deploy:
   provider: elasticbeanstalk
