@@ -24,17 +24,17 @@ after_success:
   - docker push bacsa/awss3-api
   - docker push bacsa/awss3-nginx
 
-deploy:
-  provider: elasticbeanstalk
-  region: "eu-central-1"
-  app: "awss3api"
-  env: "awss3api-env"
-  bucket_name: "elasticbeanstalk-eu-central-1-044016133399"
-  bucket_path: "docker-awss2-api"
-  on:
-    branch: master
-  access_key_id: $TRAVIS_ACCESS_KEY
-  secret_access_key: "$TRAVIS_SECRET_KEY"
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "eu-central-1"
+#   app: "awss3api"
+#   env: "awss3api-env"
+#   bucket_name: "elasticbeanstalk-eu-central-1-044016133399"
+#   bucket_path: "docker-awss2-api"
+#   on:
+#     branch: master
+#   access_key_id: $TRAVIS_ACCESS_KEY
+#   secret_access_key: "$TRAVIS_SECRET_KEY"
 
 
 
