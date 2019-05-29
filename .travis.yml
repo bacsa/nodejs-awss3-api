@@ -37,4 +37,15 @@ after_success:
 #   secret_access_key: "$TRAVIS_SECRET_KEY"
 
 
-
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-central-1"
+  app: "awss3-multi"
+  env: "awss3-multi-env"
+  bucket_name: "elasticbeanstalk-eu-central-1-044016133399"
+  bucket_path: "docker-multi"
+  on:
+    branch: master
+  access_key_id: $TRAVIS_ACCESS_KEY
+  secret_access_key: 
+    secure: "$TRAVIS_SECRET_KEY"

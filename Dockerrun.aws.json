@@ -1,0 +1,30 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "frontend",
+            "image": "bacsa/awss3-frontend",
+            "hostname": "frontend",
+            "essential": false
+        },
+        {
+            "name": "awss3api",
+            "image": "bacsa/awss3-api",
+            "hostname": "awss3api",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "bacsa/awss3-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client", "server"]
+        }
+    ]
+}
