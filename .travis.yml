@@ -6,13 +6,29 @@ services:
   - docker
 
 before_install:
-  - docker build -t awss3api -f Dockerfile .
+  - docker build -t bacsa/awss3api -f ./awss3api/Dockerfile.dev ./awss3api
+
+script:
+  - docker run bacsa/awss3api npm test -- --coverage
+
+after_success:
+  - docker build -t bacsa/awss3-frontend ./frontend
+  - docker build -t bacsa/awss3-api ./awss3api
+  - docker build -t bacsa/awss3-nginx ./nginx
+
+  # Log in to Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  
+  # Take those images and push them to docker hub
+  - docker push bacsa/multi-frontend
+  - docker push bacsa/multi-api
+  - docker push bacsa/multi-nginx
 
 deploy:
   provider: elasticbeanstalk
   region: "eu-central-1"
-  app: "docker-awss2-api"
-  env: "docker-awss2-api-env"
+  app: "awss3api"
+  env: "awss3api-env"
   bucket_name: "elasticbeanstalk-eu-central-1-044016133399"
   bucket_path: "docker-awss2-api"
   on:
