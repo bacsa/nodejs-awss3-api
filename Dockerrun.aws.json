@@ -5,13 +5,15 @@
             "name": "frontend",
             "image": "bacsa/awss3-frontend",
             "hostname": "frontend",
-            "essential": false
+            "essential": false,
+            "memory": 512
         },
         {
             "name": "awss3api",
             "image": "bacsa/awss3-api",
             "hostname": "awss3api",
-            "essential": false
+            "essential": false,
+            "memory": 512
         },
         {
             "name": "nginx",
@@ -24,7 +26,8 @@
                     "containerPort": 80
                 }
             ],
-            "links": ["client", "server"]
+            "links": ["client", "server"],
+            "memory": 512
         }
     ]
 }
