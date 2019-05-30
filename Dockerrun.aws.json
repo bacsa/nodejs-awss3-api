@@ -5,15 +5,15 @@
             "name": "frontend",
             "image": "biharicsaba/awss3-frontend",
             "hostname": "frontend",
-            "essential": false,
-            "memory": 128
+            "essential": true,
+            "memory": 1024
         },
         {
             "name": "awss3api",
             "image": "biharicsaba/awss3-api",
             "hostname": "awss3api",
-            "essential": false,
-            "memory": 128
+            "essential": true,
+            "memory": 1024
         },
         {
             "name": "nginx",
@@ -27,7 +27,7 @@
                 }
             ],
             "links": ["frontend", "awss3api"],
-            "memory": 128
+            "memory": 1024
         }
     ]
 }
