@@ -3,21 +3,21 @@
     "containerDefinitions": [
         {
             "name": "frontend",
-            "image": "bacsa/awss3-frontend",
+            "image": "biharicsaba/awss3-frontend",
             "hostname": "frontend",
             "essential": false,
             "memory": 512
         },
         {
             "name": "awss3api",
-            "image": "bacsa/awss3-api",
+            "image": "biharicsaba/awss3-api",
             "hostname": "awss3api",
             "essential": false,
             "memory": 512
         },
         {
             "name": "nginx",
-            "image": "bacsa/awss3-nginx",
+            "image": "biharicsaba/awss3-nginx",
             "hostname": "nginx",
             "essential": true,
             "portMappings": [
@@ -26,7 +26,7 @@
                     "containerPort": 80
                 }
             ],
-            "links": ["client", "server"],
+            "links": ["frontend", "awss3api"],
             "memory": 512
         }
     ]
